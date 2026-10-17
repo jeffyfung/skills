@@ -53,6 +53,8 @@ Check first whether a PR already exists for this branch: `gh pr list --head <bra
 - **Merged PR found** — the branch was already shipped once; stop and ask the user what they want before creating another PR (new commits since merge are unusual, not the default case).
 - **No existing/merged PR** — the push confirmation from step 6 already covers this: draft the body and run `gh pr create --base <base> --head <branch> --title "<title>" --body "<body>"` straight away, no extra approval needed.
 
+**Screenshots for visible UI changes.** If the change alters anything a user can see — a new text field, a changed colour, new layout or copy, a new page or component — capture screenshots of the happy path and the edge cases the change introduces (empty and error states, long/overflowing text, responsive vs desktop where relevant). Attach them to the PR body under a `## Screenshots` section. Skip only when the change is invisible to the user (logic, tests, config, docs, CI).
+
 Before drafting, check the repo for its own PR description standard — `.github/PULL_REQUEST_TEMPLATE.md`, `.github/pull_request_template.md`, `docs/*` or `CONTRIBUTING.md` guidance on PR bodies. A repo-documented template overrides the one below; use it instead.
 
 ### PR body template (fallback — repo standard wins if one exists)
@@ -64,6 +66,9 @@ Before drafting, check the repo for its own PR description standard — `.github
 ## Changes
 - <notable change 1>
 - <notable change 2>
+
+## Screenshots
+<for visible UI changes: happy path + relevant edge cases; omit for invisible changes>
 
 ## Design decisions
 <notable tradeoffs or rejected alternatives — only for large functional changes, see below>
@@ -78,12 +83,6 @@ Before drafting, check the repo for its own PR description standard — `.github
 When the base isn't `main`, open the Summary by naming the base branch and what has to land first — the reviewer needs to know the diff is stacked and that the PR retargets to `main` once the base merges.
 
 Include design decisions only when the PR introduces new functional behavior of real size (a new module, a non-trivial algorithm, a tradeoff a reviewer would otherwise have to ask about) — omit the section entirely for docs/config/chore/small fixes rather than leaving it empty.
-
-End the body with:
-
-```text
-🤖 Generated with [Claude Code](https://claude.com/claude-code)
-```
 
 ## 8. Report
 

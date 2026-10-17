@@ -1,6 +1,6 @@
 ---
 name: commit-push-pr
-description: Commit current changes, push the branch, and open a PR against main or a stacked base branch. Use when the user wants to commit their changes, push a branch, or create/open a pull request.
+description: Commit current changes, push the branch, and open a PR against main or a stacked base branch. Emits a local HTML review walkthrough with diagrams when the change is broad (multiple non-UI modules, schema changes, or a large end-to-end feature). Use when the user wants to commit their changes, push a branch, or create/open a pull request.
 ---
 
 # Commit, Push, and Open a PR
@@ -84,6 +84,30 @@ When the base isn't `main`, open the Summary by naming the base branch and what 
 
 Include design decisions only when the PR introduces new functional behavior of real size (a new module, a non-trivial algorithm, a tradeoff a reviewer would otherwise have to ask about) — omit the section entirely for docs/config/chore/small fixes rather than leaving it empty.
 
-## 8. Report
+## 8. Review walkthrough (broad changes only)
+
+Write a self-contained HTML walkthrough when **any** of these is true:
+
+- the diff touches several different non-UI modules;
+- it changes a database schema (migrations, tables, columns, indexes, constraints);
+- it is a large end-to-end feature (a new flow crossing several layers).
+
+Skip it for docs, config, chores, small fixes, and changes confined to one module or to UI only. The walkthrough exists to shorten a review — do not generate it automatically for every PR.
+
+Write one file, `pr-walkthrough.html`, in a scratch directory outside the commit (never stage it), open it locally with `open pr-walkthrough.html`, and give the user the path. Do not host it, attach it, or version it.
+
+Structure it as sections under native `<details>`/`<summary>` collapsible headings — the first section open, the rest collapsed — so the reviewer scans the headings and expands only what they need. No JavaScript.
+
+Written for a reviewer who has not read the diff:
+
+- **What and why** — the change in a few sentences, plus the order to read the diff in.
+- **Change map** — which modules are touched and how they connect. A diagram, not a file list.
+- **Mechanics** — each non-obvious piece of logic or data flow explained next to the code it names (`path:line`).
+- **Schema changes** — before/after table shapes, the migration path, and the risk (locks, backfill, rollback).
+- **Hard parts** — the parts a reviewer would otherwise have to ask about, and what to scrutinise.
+
+Diagrams: inline SVG, hand-written and sized to the content, for module dependencies, request/sequence flow, and schema. Keep the file self-contained — no external JS, CSS, or image URLs, so it opens offline. Use rendered images or screenshots only where the thing being explained is visual.
+
+## 9. Report
 
 Give the user the PR URL and the base it targets. State plainly what was committed, pushed, and opened — no hedging.

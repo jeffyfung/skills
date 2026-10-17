@@ -96,6 +96,8 @@ Skip it for docs, config, chores, small fixes, and changes confined to one modul
 
 Write one file, `pr-walkthrough.html`, in a scratch directory outside the commit (never stage it), open it locally with `open pr-walkthrough.html`, and give the user the path. Do not host it, attach it, or version it.
 
+Structure it as sections under native `<details>`/`<summary>` collapsible headings — the first section open, the rest collapsed — so the reviewer scans the headings and expands only what they need. No JavaScript.
+
 Written for a reviewer who has not read the diff:
 
 - **What and why** — the change in a few sentences, plus the order to read the diff in.
